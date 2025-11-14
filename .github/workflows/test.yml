@@ -2,42 +2,45 @@ name: Test Coverage
 
 on:
   pull_request:
+    branches: [ main, develop, test, feature/** ]
 
 jobs:
-  tests:
+  test:
+    name: Test Coverage
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
-      - name: Install dependencies
-        run: |
-          pip install pytest pytest-json-report pytest-cov
+      - name: Install tox
+        run: pip install tox coverage
 
-      - name: Run Pytest with coverage + JSON
-        run: |
-          pytest tests/ \
-            --json-report \
-            --json-report-file=pytest-report.json \
-            --cov=. \
-            --cov-report=xml \
-            --cov-report=term
+      - name: Run tests via tox
+        run: tox -e py
 
-      - name: Upload pytest report
-        uses: actions/upload-artifact@v4
-        with:
-          name: pytest-report
-          path: pytest-report.json
-
-      - name: Upload coverage report
+      - name: Upload coverage artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage.xml
 
+      - name: Install pytest JSON plugin
+        run: pip install pytest pytest-json-report
+
+      - name: Run Pytest with JSON output
+        run: pytest test_coverage/ --json-report --json-report-file=pytest-report.json
+
+      - name: Upload Pytest report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: pytest-report.json
