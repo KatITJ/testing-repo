@@ -1,4 +1,3 @@
-# test_fail_timeout.py
 import time
 
 
