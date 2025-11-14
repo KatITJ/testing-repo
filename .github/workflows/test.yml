@@ -21,10 +21,10 @@ jobs:
         run: |
           pip install pytest pytest-json-report coverage
 
-      # Run pytest + generate JSON + create coverage.xml
+      # Run pytest + JSON + coverage.xml *todo junto*
       - name: Run Tests with JSON and Coverage
         run: |
-          coverage run -m pytest tests/ --json-report --json-report-file=pytest-report.json
+          coverage run -m pytest . --json-report --json-report-file=pytest-report.json
           coverage xml -o coverage.xml
 
       - name: Upload Coverage Artifact
