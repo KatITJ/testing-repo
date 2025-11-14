@@ -2,11 +2,9 @@ name: Test Coverage
 
 on:
   pull_request:
-    branches: [ main, develop, feature/** ]
 
 jobs:
-  test:
-    name: Run Unit Tests and Upload Artifacts
+  tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,28 +14,30 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
-          pip install pytest pytest-json-report coverage
+          pip install pytest pytest-json-report pytest-cov
 
-      - name: Run Pytest with JSON output
+      - name: Run Pytest with coverage + JSON
         run: |
-          pytest tests/ --json-report --json-report-file=pytest-report.json
-          coverage run -m pytest tests/
-          coverage xml -o coverage.xml
+          pytest tests/ \
+            --json-report \
+            --json-report-file=pytest-report.json \
+            --cov=. \
+            --cov-report=xml \
+            --cov-report=term
 
       - name: Upload pytest report
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pytest-report
           path: pytest-report.json
 
       - name: Upload coverage report
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage.xml
+
