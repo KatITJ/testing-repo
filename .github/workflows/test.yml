@@ -6,39 +6,35 @@ on:
 
 jobs:
   test:
-    name: Test Coverage
+    name: Test & Coverage
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install tox
-        run: pip install tox coverage
+      - name: Install dependencies
+        run: |
+          pip install pytest pytest-json-report coverage
 
-      - name: Run tests via tox
-        run: tox -e py
+      # Run pytest + generate JSON + create coverage.xml
+      - name: Run Tests with JSON and Coverage
+        run: |
+          coverage run -m pytest tests/ --json-report --json-report-file=pytest-report.json
+          coverage xml -o coverage.xml
 
-      - name: Upload coverage artifact
+      - name: Upload Coverage Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage.xml
 
-      - name: Install pytest JSON plugin
-        run: pip install pytest pytest-json-report
-
-      - name: Run Pytest with JSON output
-        run: pytest test_coverage/ --json-report --json-report-file=pytest-report.json
-
-      - name: Upload Pytest report
+      - name: Upload Pytest JSON Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
