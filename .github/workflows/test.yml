@@ -2,16 +2,15 @@ name: Test Coverage
 
 on:
   pull_request:
-    branches: [ main, develop, feature/** ]
+    branches: [ main, develop, test, feature/** ]
 
 jobs:
   test:
-    name: Run Unit Tests and Upload Artifacts
+    name: Test & Coverage
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -22,22 +21,22 @@ jobs:
         run: |
           pip install pytest pytest-json-report coverage
 
-      - name: Run Pytest with JSON output
+      # Run pytest + JSON + coverage.xml *todo junto*
+      - name: Run Tests with JSON and Coverage
         run: |
-          pytest tests/ --json-report --json-report-file=pytest-report.json
-          coverage run -m pytest tests/
+          coverage run -m pytest . --json-report --json-report-file=pytest-report.json
           coverage xml -o coverage.xml
 
-      - name: Upload pytest report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: pytest-report
-          path: pytest-report.json
-
-      - name: Upload coverage report
+      - name: Upload Coverage Artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage.xml
+
+      - name: Upload Pytest JSON Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: pytest-report.json
