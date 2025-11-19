@@ -1,6 +1,6 @@
-import random
+import random, time
 
 
 def test_flaky():
-    # 20% chance of passing
-    assert random.randint(1, 5) == 1
+    rnd = int(time.time() * 1_000_000) % 2
+    assert rnd == 1
