@@ -2,5 +2,5 @@ import random
 
 
 def test_flaky():
-    # 50% probabilidad de pasar / fallar
-    assert random.choice([True, False])
+    # 20% chance of passing
+    assert random.randint(1, 5) == 1
