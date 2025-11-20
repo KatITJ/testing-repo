@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pytest pytest-json-report coverage
+          pip install pytest pytest-json-report coverage requests
 
       - name: Run Tests with JSON and Coverage
         run: |
