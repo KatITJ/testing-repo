@@ -1,7 +1,6 @@
 # testing-repo
-Hello testing for design here
 
-## Test Summary Verification
-- This update is to verify that the GitHub App correctly posts the test summary after CI runs.
-- Checking yaml
-### 🧪 Tests and check 3
+  ## "run_connection_error": true,
+  ## "run_timeout_error": false,
+  ## "run_dns_error": false,
+  ## "run_connection_reset": false
