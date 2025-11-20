@@ -12,7 +12,10 @@ with open(CONFIG_PATH, "r") as f:
 
 
 def test_connection_error():
+    print("🚀 DEBUG: test_connection_error() se está ejecutando")
+
     if not cfg.get("run_connection_error", False):
+        print("⚠️ DEBUG: saltado por config.json (run_connection_error = false)")
         pytest.skip("Skipping: run_connection_error = false")
 
     try:
