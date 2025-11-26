@@ -19,22 +19,21 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pytest pytest-json-report==1.5.0 coverage requests
+          pip install pytest pytest-json-report coverage requests
 
-      - name: Run Tests with JSON and Coverage
+      - name: Run Tests with JSON and Coverage (non-blocking)
         continue-on-error: true
         run: |
           set +e
+
           coverage run --source=app -m pytest \
             --json-report \
             --json-report-file=pytest-report.json \
             tests
 
           TEST_EXIT_CODE=$?
-
           coverage xml -o coverage.xml || true
-          set -e
-          exit $TEST_EXIT_CODE
+          echo "TEST_EXIT_CODE=$TEST_EXIT_CODE" >> $GITHUB_ENV
 
       - name: Upload Coverage Artifact
         if: always()
@@ -49,6 +48,16 @@ jobs:
         with:
           name: pytest-report
           path: pytest-report.json
+
+      - name: Fail if tests failed
+        run: |
+          if [ "$TEST_EXIT_CODE" -ne 0 ]; then
+            echo "❌ Tests failed. Marking job as failed."
+            exit 1
+          else
+            echo "✅ All tests passed."
+          fi
+
 
 
 
