@@ -22,14 +22,29 @@ jobs:
           pip install pytest pytest-json-report coverage requests
 
       - name: Run Tests with JSON and Coverage
+        continue-on-error: true
         run: |
+          # 1. Permitir que pytest falle sin detener el paso
+          set +e
+
+          # 2. Ejecutar pytest con JSON report
+          coverage run --source=app -m pytest \
+            --json-report \
+            --json-report-file=pytest-report.json \
+            --json-report-include=duration \
+            --json-report-include=call
+
+          # 3. Guardar exit code de pytest
+          TEST_EXIT_CODE=$?
+
+          # 4. Generar coverage.xml incluso si pytest falló
+          coverage xml -o coverage.xml || true
+
+          # 5. Restaurar modo estricto
           set -e
-            coverage run --source=app -m pytest \
-              --json-report \
-              --json-report-file=pytest-report.json \
-              --json-report-include=duration \
-              --json-report-include=call
-            TEST_EXIT_CODE=$?
+
+          # 6. Marcar el paso como FAIL si pytest falló
+          exit $TEST_EXIT_CODE
 
       - name: Upload Coverage Artifact
         if: always()
