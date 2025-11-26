@@ -28,8 +28,6 @@ jobs:
           coverage run --source=app -m pytest \
             --json-report \
             --json-report-file=pytest-report.json \
-            --json-report-include=duration \
-            --json-report-include=call \
             tests
 
           TEST_EXIT_CODE=$?
@@ -51,5 +49,6 @@ jobs:
         with:
           name: pytest-report
           path: pytest-report.json
+
 
 
