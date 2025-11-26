@@ -28,7 +28,7 @@ jobs:
           set +e
 
           # 2. Ejecutar pytest con JSON report
-          coverage run --source=app -m pytest \
+          coverage run --source=app -m pytest tests \
             --json-report \
             --json-report-file=pytest-report.json \
             --json-report-include=duration \
