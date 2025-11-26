@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install pytest pytest-json-report==1.6.0 coverage requests
+          pip install pytest pytest-json-report==1.5.0 coverage requests
 
       - name: Run Tests with JSON and Coverage
         continue-on-error: true
@@ -51,4 +51,5 @@ jobs:
         with:
           name: pytest-report
           path: pytest-report.json
+
 
