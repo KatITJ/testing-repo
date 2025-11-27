@@ -5,7 +5,7 @@ import time
 def aggressive_network_call():
     time.sleep(random.uniform(0.005, 0.02))
 
-    # 80% fail
+    # 80% fail test
     if random.random() < 0.8:
         raise ConnectionError("Network disconnect")
 
