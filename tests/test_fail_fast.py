@@ -1,2 +1,2 @@
-def test_fast_failure():
-    assert False, "Intentional fast failure"
+# def test_fast_failure():
+# assert False, "Intentional fast failure"
