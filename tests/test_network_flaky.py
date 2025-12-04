@@ -5,11 +5,8 @@ import time
 # Simulate a flaky network call with aggressive failure rate
 def aggressive_network_call():
     time.sleep(random.uniform(0.005, 0.02))
-
-
-# 80% fail test 2
-if random.random() < 0.8:
-    raise ConnectionError("Network disconnect")
+    if random.random() < 0.8:
+        raise ConnectionError("Network disconnect")
 
 
 def test_network_aggressive():
