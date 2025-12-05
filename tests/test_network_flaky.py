@@ -2,7 +2,7 @@ import random
 import time
 
 
-# Simulate a flaky network call with aggressive failure rate
+# Simulate a flaky network call
 def aggressive_network_call():
     time.sleep(random.uniform(0.005, 0.02))
 
