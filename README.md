@@ -26,3 +26,5 @@ The bot can:
 
 - 🔔 Slack Alerting
   - If enabled for your team (Only enabled in selected environments)
+ 
+  - hi testing
