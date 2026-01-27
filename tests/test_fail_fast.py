@@ -1,5 +1,4 @@
 def test_fast_failure():
     assert False, "Intentional fast failure"
 
-
-# testing failure 6
+# End of file tests/test_fail_fast.py
