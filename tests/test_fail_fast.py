@@ -2,4 +2,4 @@
 # assert False, "Intentional fast failure"
 
 # End of file tests/test_fail_fast.py
-# hello world
+
